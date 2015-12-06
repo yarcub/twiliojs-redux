@@ -1,4 +1,5 @@
-var actions = require('./actions');
+var actions = require('./actions'),
+constants = require('./constants');
 
 const middleware = (twilioDevice, token, opts) => store => {
   token().then( value => {
@@ -19,6 +20,13 @@ const middleware = (twilioDevice, token, opts) => store => {
 
     twilioDevice.incoming( conn => {
       store.dispatch(actions.incomingCall(conn, new Date()));
+      conn.accept( conn => {
+
+      });
+
+      conn.mute( (isMuted, conn) => {
+
+      })
     });
 
     twilioDevice.cancel( conn => {
@@ -37,6 +45,34 @@ const middleware = (twilioDevice, token, opts) => store => {
   });
 
   return next => action => {
+    const conn = twilioDevice.activeConnection();
+    if(action['@@isTwilioRedux']){
+      switch(action.type){
+        case constants.MAKE_CALL:
+          twilioDevice.connect(action.payload);
+          return;
+        case constants.ACCEPT_CALL:
+          conn.accept(action.payload);
+          return;
+        case constants.REJECT_CALL:
+          conn.reject();
+          return;
+        case constants.IGNORE_CALL:
+          conn.ignore();
+          return;
+        case constants.TOGGLE_MUTE:
+          conn.mute(!conn.isMuted());
+          return;
+        case constants.SEND_DIGITS:
+          conn.sendDigits(action.payload);
+          return;
+          case constants.HANGUP_CALL:
+            conn.disconnect();
+            return;
+        default:
+          throw new Error('Unknown twilio action');
+      }
+    }
     return next(action);
   }
 }

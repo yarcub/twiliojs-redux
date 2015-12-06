@@ -20,7 +20,7 @@ module.exports = {
       isError: true
     }
   },
-  incomingCall(conn, timestamp) {
+  incomingCall(conn, timestamp) { //Refactor to addActiveCall
     return {
       type: constants.INCOMING_CALL,
       payload: {
@@ -53,6 +53,55 @@ module.exports = {
       payload: {
         status: conn.status()
       }
+    }
+  },
+  /*PUBLIC ACTIONS*/
+  makeCall(from, to){
+    return {
+      '@@isTwilioRedux': true,
+      type: constants.MAKE_CALL,
+      payload:{
+        From: from,
+        To: to
+      }
+    }
+  },
+  acceptCall(audioConstraints){
+    return {
+      '@@isTwilioRedux': true,
+      type: constants.ACCEPT_CALL,
+      payload: audioConstraints
+    }
+  },
+  rejectCall(){
+    return {
+      '@@isTwilioRedux': true,
+      type: constants.REJECT_CALL
+    }
+  },
+  ignoreCall(){
+    return {
+      '@@isTwilioRedux': true,
+      type: constants.IGNORE_CALL
+    }
+  },
+  toggleMute(){
+    return {
+      '@@isTwilioRedux': true,
+      type: constants.TOGGLE_MUTE
+    }
+  },
+  sendDigits(digits){
+    return {
+      '@@isTwilioRedux': true,
+      type: constants.SEND_DIGITS,
+      payload: digits
+    }
+  },
+  hangupCall(){
+    return {
+      '@@isTwilioRedux': true,
+      type: constants.HANGUP_CALL
     }
   }
 }

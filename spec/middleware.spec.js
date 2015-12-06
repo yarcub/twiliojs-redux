@@ -1,6 +1,7 @@
 const middleware = require('./../src/middleware'),
   sinon = require('sinon'),
-  mockStoreWithMiddleware = require('./util/mock');
+  mockStoreWithMiddleware = require('./util/mock'),
+  actions = require('./../src/actions');
 
 const store = {
   dispatch: () => {},
@@ -12,6 +13,15 @@ const getToken = () => {return Promise.resolve('token')};
 var device;
 
 beforeEach(()=>{
+  var activeConnection = {
+    accept: sinon.spy(),
+    reject: sinon.spy(),
+    ignore: sinon.spy(),
+    mute: sinon.spy(),
+    sendDigits: sinon.spy(),
+    disconnect: sinon.spy(),
+    isMuted(){return false}
+  }
   device ={
     setup: sinon.spy(),
     ready: sinon.spy(),
@@ -20,7 +30,8 @@ beforeEach(()=>{
     incoming: sinon.spy(),
     cancel: sinon.spy(),
     connect: sinon.spy(),
-    disconnect: sinon.spy()
+    disconnect: sinon.spy(),
+    activeConnection: ()=>{return activeConnection}
   };
 })
 
@@ -256,6 +267,120 @@ describe('Twilio Middleware', () => {
       [middleware(device, getToken, {})],
       done
     )
+  })
+
+  it('should call twilio connect on make call action', (done) => {
+    const store = mockStoreWithMiddleware(
+      {},
+      [],
+      [middleware(device, getToken, {})],
+      done
+    )
+
+    store.dispatch(actions.makeCall('+351910000000', '+351960000000'))
+
+    setTimeout(()=>{
+      sinon.assert.calledWith(device.connect, {From: '+351910000000', To: '+351960000000'});
+      done();
+    },0)
+  })
+
+  it('should accept active twilio connection on accept call action', (done) => {
+    const store = mockStoreWithMiddleware(
+      {},
+      [],
+      [middleware(device, getToken, {})],
+      done
+    )
+
+    const constraints = {optional:{sourceid: 'xxx'}};
+
+    store.dispatch(actions.acceptCall(constraints))
+
+    setTimeout(()=>{
+      sinon.assert.calledWith(device.activeConnection().accept, constraints);
+      done();
+    },0)
+  })
+
+  it('should reject active twilio connection on reject call action', (done) => {
+    const store = mockStoreWithMiddleware(
+      {},
+      [],
+      [middleware(device, getToken, {})],
+      done
+    )
+
+    store.dispatch(actions.rejectCall())
+
+    setTimeout(()=>{
+      sinon.assert.called(device.activeConnection().reject);
+      done();
+    },0)
+  })
+
+  it('should ignore active twilio connection on ignore call action', (done) => {
+    const store = mockStoreWithMiddleware(
+      {},
+      [],
+      [middleware(device, getToken, {})],
+      done
+    )
+
+    store.dispatch(actions.ignoreCall());
+
+    setTimeout(()=>{
+      sinon.assert.called(device.activeConnection().ignore);
+      done();
+    },0)
+  })
+
+  it('should mute active twilio connection on mute call action', (done) => {
+    const store = mockStoreWithMiddleware(
+      {},
+      [],
+      [middleware(device, getToken, {})],
+      done
+    )
+
+    store.dispatch(actions.toggleMute());
+
+    setTimeout(()=>{
+      sinon.assert.calledWith(device.activeConnection().mute, true);
+      done();
+    },0)
+  })
+
+  it('should send digits to active twilio connection on send digits action', (done) => {
+    const store = mockStoreWithMiddleware(
+      {},
+      [],
+      [middleware(device, getToken, {})],
+      done
+    )
+
+    store.dispatch(actions.sendDigits('25#*'));
+
+    setTimeout(()=>{
+      sinon.assert.called(device.activeConnection().sendDigits, '25#*');
+      done();
+    },0)
+  })
+
+  it('should disconnect active twilio connection on hangup action', (done) => {
+    const store = mockStoreWithMiddleware(
+      {},
+      [],
+      [middleware(device, getToken, {})],
+      done
+    )
+
+    store.dispatch(actions.hangupCall());
+
+    setTimeout(()=>{
+      sinon.assert.calledWith(device.activeConnection().disconnect);
+      done();
+    },0)
   })
 
 });
