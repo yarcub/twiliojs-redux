@@ -16,9 +16,8 @@
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
     "mocha": "^2.3.4",
-    "require-dir": "^0.3.0"
-  },
-  "dependencies": {
+    "require-dir": "^0.3.0",
+    "sinon": "^1.17.2",
     "redux": "^3.0.4"
   }
 }
