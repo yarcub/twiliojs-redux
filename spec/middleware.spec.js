@@ -26,7 +26,7 @@ beforeEach(()=>{
 
 describe('Twilio Middleware', () => {
 
-  it('should setup device when token is ready', (done) => {
+  it('should setup device when token resolved', (done) => {
     middleware(device, getToken, {})(store);
 
     setTimeout(()=>{
@@ -111,6 +111,142 @@ describe('Twilio Middleware', () => {
         sound:{
           incoming(){ return false; }
         }
+      });
+    };
+
+    mockStoreWithMiddleware(
+      {},
+      expectedActions,
+      [middleware(device, getToken, {})],
+      done
+    )
+  })
+
+  it('should dispatch device error action on error', (done) => {
+    const expectedActions = [
+      {
+        type: '@@twilioRedux/deviceError',
+        payload: {
+          code: '1234',
+          message: 'an error occurred'
+        },
+        isError: true
+      }
+    ]
+
+    device.error = (handler) => {
+      handler({code: '1234', message: 'an error occurred'});
+    };
+
+    mockStoreWithMiddleware(
+      {},
+      expectedActions,
+      [middleware(device, getToken, {})],
+      done
+    )
+  })
+
+  it('should dispatch incoming call action on incoming connection', (done) => {
+    const expectedActions = [
+      {
+        type: '@@twilioRedux/incomingCall',
+        payload: {
+          sid: '1234',
+          from: '+351910000000',
+          to: '+351960000000',
+          status: 'pending',
+          direction: 'inbound',
+          created_at: new Date() //FIXME: use stable values
+        }
+      }
+    ]
+
+    device.incoming = (handler) => {
+      handler({
+        parameters: {
+          CallSid: '1234',
+          From: '+351910000000',
+          To: '+351960000000'
+        },
+        status(){return 'pending'}
+      });
+    };
+
+    mockStoreWithMiddleware(
+      {},
+      expectedActions,
+      [middleware(device, getToken, {})],
+      done
+    )
+  })
+
+  it('should dispatch missed call action on cancel connection', (done) => {
+    const expectedActions = [
+      {
+        type: '@@twilioRedux/missedCall'
+      }
+    ]
+
+    device.cancel = (handler) => {
+      handler({});
+    };
+
+    mockStoreWithMiddleware(
+      {},
+      expectedActions,
+      [middleware(device, getToken, {})],
+      done
+    )
+  })
+
+  it('should dispatch establised call action on connected connection', (done) => {
+    const expectedActions = [
+      {
+        type: '@@twilioRedux/callEstablished',
+        payload: {
+          sid: '1234',
+          status: 'open'
+        }
+      }
+    ]
+
+    device.connect = (handler) => {
+      handler({
+        parameters: {
+          CallSid: '1234',
+          From: '+351910000000',
+          To: '+351960000000'
+        },
+        status(){return 'open'}
+      });
+    };
+
+    mockStoreWithMiddleware(
+      {},
+      expectedActions,
+      [middleware(device, getToken, {})],
+      done
+    )
+  })
+
+  it('should dispatch disconnected call action on disconnected connection', (done) => {
+    const expectedActions = [
+      {
+        type: '@@twilioRedux/disconnectedCall',
+        payload: {
+          status: 'closed'
+        }
+      }
+    ]
+
+    device.disconnect = (handler) => {
+      handler({
+        parameters: {
+          CallSid: '1234',
+          From: '+351910000000',
+          To: '+351960000000'
+        },
+        status(){return 'closed'}
       });
     };
 

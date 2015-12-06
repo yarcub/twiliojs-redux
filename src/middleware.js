@@ -14,23 +14,23 @@ const middleware = (twilioDevice, token, opts) => store => {
     });
 
     twilioDevice.error( error => {
-
+      store.dispatch(actions.deviceError(error));
     });
 
     twilioDevice.incoming( conn => {
-
+      store.dispatch(actions.incomingCall(conn, new Date()));
     });
 
     twilioDevice.cancel( conn => {
-
+      store.dispatch(actions.missedCall());
     });
 
     twilioDevice.connect( conn => {
-
+      store.dispatch(actions.establishedCall(conn));
     });
 
     twilioDevice.disconnect( conn => {
-
+      store.dispatch(actions.disconnectedCall(conn));
     });
 
     twilioDevice.setup(value, opts);
