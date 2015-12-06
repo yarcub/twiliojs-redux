@@ -19,7 +19,12 @@ const middleware = (twilioDevice, token, opts) => store => {
     });
 
     twilioDevice.incoming( conn => {
-      store.dispatch(actions.incomingCall(conn, new Date()));
+      store.dispatch(actions.addActiveCall(
+        conn.parameters.From,
+        conn.parameters.To,
+        'inbound',
+        new Date()
+      ));
       conn.accept( conn => {
 
       });
@@ -50,6 +55,12 @@ const middleware = (twilioDevice, token, opts) => store => {
       switch(action.type){
         case constants.MAKE_CALL:
           twilioDevice.connect(action.payload);
+          next(actions.addActiveCall(
+            action.payload.From,
+            action.payload.To,
+            'outbound',
+            new Date()
+          ))
           return;
         case constants.ACCEPT_CALL:
           conn.accept(action.payload);
@@ -66,9 +77,9 @@ const middleware = (twilioDevice, token, opts) => store => {
         case constants.SEND_DIGITS:
           conn.sendDigits(action.payload);
           return;
-          case constants.HANGUP_CALL:
-            conn.disconnect();
-            return;
+        case constants.HANGUP_CALL:
+          conn.disconnect();
+          return;
         default:
           throw new Error('Unknown twilio action');
       }

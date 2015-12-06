@@ -20,16 +20,15 @@ module.exports = {
       isError: true
     }
   },
-  incomingCall(conn, timestamp) { //Refactor to addActiveCall
+  addActiveCall(from, to, direction, timestamp) { //Refactor to addActiveCall
     return {
-      type: constants.INCOMING_CALL,
+      type: constants.ADD_ACTIVE_CALL,
       payload: {
-        sid: conn.parameters.CallSid,
-        from: conn.parameters.From,
-        to: conn.parameters.To,
-        status: conn.status(),
+        from: from,
+        to: to,
+        status: 'pending',
         created_at: timestamp,
-        direction: 'inbound'
+        direction: direction
       }
     }
   },

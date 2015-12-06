@@ -157,12 +157,11 @@ describe('Twilio Middleware', () => {
     )
   })
 
-  it('should dispatch incoming call action on incoming connection', (done) => {
+  it('should dispatch add active call action on incoming connection', (done) => {
     const expectedActions = [
       {
-        type: '@@twilioRedux/incomingCall',
+        type: '@@twilioRedux/addActiveCall',
         payload: {
-          sid: '1234',
           from: '+351910000000',
           to: '+351960000000',
           status: 'pending',
@@ -270,19 +269,27 @@ describe('Twilio Middleware', () => {
   })
 
   it('should call twilio connect on make call action', (done) => {
+    const expectedActions = [
+      {
+        type: '@@twilioRedux/addActiveCall',
+        payload: {
+          from: '+351910000000',
+          to: '+351960000000',
+          status: 'pending',
+          created_at: new Date(),
+          direction: 'outbound'
+        }
+      }
+    ]
     const store = mockStoreWithMiddleware(
       {},
-      [],
+      expectedActions,
       [middleware(device, getToken, {})],
       done
     )
 
     store.dispatch(actions.makeCall('+351910000000', '+351960000000'))
-
-    setTimeout(()=>{
-      sinon.assert.calledWith(device.connect, {From: '+351910000000', To: '+351960000000'});
-      done();
-    },0)
+    sinon.assert.calledWith(device.connect, {From: '+351910000000', To: '+351960000000'});
   })
 
   it('should accept active twilio connection on accept call action', (done) => {
@@ -381,6 +388,29 @@ describe('Twilio Middleware', () => {
       sinon.assert.calledWith(device.activeConnection().disconnect);
       done();
     },0)
+  })
+
+  it('should add outbound active call on make call action', (done) => {
+    const expectedActions = [
+      {
+        type: '@@twilioRedux/addActiveCall',
+        payload: {
+          from: '+351910000000',
+          to: '+351960000000',
+          direction: 'outbound',
+          status: 'pending',
+          created_at: new Date()
+        }
+      }
+    ]
+    const store = mockStoreWithMiddleware(
+      {},
+      expectedActions,
+      [middleware(device, getToken, {})],
+      done
+    )
+
+    store.dispatch(actions.makeCall('+351910000000', '+351960000000'));
   })
 
 });
