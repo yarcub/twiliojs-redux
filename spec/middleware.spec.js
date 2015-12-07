@@ -11,6 +11,7 @@ const store = {
 const getToken = () => {return Promise.resolve('token')};
 
 var device;
+var originalNow = Date.now;
 
 beforeEach(()=>{
   var activeConnection = {
@@ -33,6 +34,12 @@ beforeEach(()=>{
     disconnect: sinon.spy(),
     activeConnection: ()=>{return activeConnection}
   };
+
+  Date.now = () => {return new Date(1)};
+})
+
+afterEach(()=>{
+  Date.now = originalNow;
 })
 
 describe('Twilio Middleware', () => {
@@ -166,7 +173,7 @@ describe('Twilio Middleware', () => {
           to: '+351960000000',
           status: 'pending',
           direction: 'inbound',
-          created_at: new Date() //FIXME: use stable values
+          created_at: Date.now()
         }
       }
     ]
@@ -276,7 +283,7 @@ describe('Twilio Middleware', () => {
           from: '+351910000000',
           to: '+351960000000',
           status: 'pending',
-          created_at: new Date(),
+          created_at: Date.now(),
           direction: 'outbound'
         }
       }
@@ -399,7 +406,7 @@ describe('Twilio Middleware', () => {
           to: '+351960000000',
           direction: 'outbound',
           status: 'pending',
-          created_at: new Date()
+          created_at: Date.now()
         }
       }
     ]

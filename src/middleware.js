@@ -23,7 +23,7 @@ const middleware = (twilioDevice, token, opts) => store => {
         conn.parameters.From,
         conn.parameters.To,
         'inbound',
-        new Date()
+        Date.now()
       ));
       conn.accept( conn => {
 
@@ -59,7 +59,7 @@ const middleware = (twilioDevice, token, opts) => store => {
             action.payload.From,
             action.payload.To,
             'outbound',
-            new Date()
+            Date.now()
           ))
           return;
         case constants.ACCEPT_CALL:
