@@ -50,7 +50,6 @@ const middleware = (twilioDevice, token, opts) => store => {
   });
 
   return next => action => {
-    const conn = twilioDevice.activeConnection();
     if(action['@@isTwilioRedux']){
       switch(action.type){
         case constants.MAKE_CALL:
@@ -63,22 +62,22 @@ const middleware = (twilioDevice, token, opts) => store => {
           ))
           return;
         case constants.ACCEPT_CALL:
-          conn.accept(action.payload);
+          twilioDevice.activeConnection().accept(action.payload);
           return;
         case constants.REJECT_CALL:
-          conn.reject();
+          twilioDevice.activeConnection().reject();
           return;
         case constants.IGNORE_CALL:
-          conn.ignore();
+          twilioDevice.activeConnection().ignore();
           return;
         case constants.TOGGLE_MUTE:
-          conn.mute(!conn.isMuted());
+          twilioDevice.activeConnection().mute(!twilioDevice.activeConnection().isMuted());
           return;
         case constants.SEND_DIGITS:
-          conn.sendDigits(action.payload);
+          twilioDevice.activeConnection().sendDigits(action.payload);
           return;
         case constants.HANGUP_CALL:
-          conn.disconnect();
+          twilioDevice.activeConnection().disconnect();
           return;
         default:
           throw new Error('Unknown twilio action');

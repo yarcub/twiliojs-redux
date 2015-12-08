@@ -6,7 +6,7 @@ module.exports = {
       type: constants.CHANGE_DEVICE_STATUS,
       payload: {
         status: device.status(),
-        silent: device.sound.incoming()
+        silent: !device.sounds.incoming()
       }
     }
   },

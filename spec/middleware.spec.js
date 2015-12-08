@@ -74,7 +74,7 @@ describe('Twilio Middleware', () => {
     device.offline = (handler) => {
       handler({
         status(){ return 'offline'; },
-        sound:{
+        sounds:{
           incoming(){ return false; }
         }
       });
@@ -91,7 +91,7 @@ describe('Twilio Middleware', () => {
       {
         type: '@@twilioRedux/changeDeviceStatus',
         payload: {
-          status: 'ready', silent: false
+          status: 'ready', silent: true
         }
       }
     ]
@@ -99,7 +99,7 @@ describe('Twilio Middleware', () => {
     device.ready = (handler) => {
       handler({
         status(){ return 'ready'; },
-        sound:{
+        sounds:{
           incoming(){ return false; }
         }
       });
@@ -118,7 +118,7 @@ describe('Twilio Middleware', () => {
       {
         type: '@@twilioRedux/changeDeviceStatus',
         payload: {
-          status: 'offline', silent: false
+          status: 'offline', silent: true
         }
       }
     ]
@@ -126,7 +126,7 @@ describe('Twilio Middleware', () => {
     device.offline = (handler) => {
       handler({
         status(){ return 'offline'; },
-        sound:{
+        sounds:{
           incoming(){ return false; }
         }
       });
