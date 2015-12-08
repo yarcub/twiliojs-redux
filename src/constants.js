@@ -5,7 +5,6 @@ module.exports = {
   MISSED_CALL: '@@twilioRedux/missedCall',
   ESTABLISHED_CALL: '@@twilioRedux/callEstablished',
   DISCONECTED_CALL: '@@twilioRedux/disconnectedCall',
-  /*PUBLIC CONSTANTS*/
   MAKE_CALL: '@@twilioRedux/makeCall',
   ACCEPT_CALL: '@@twilioRedux/acceptCall',
   REJECT_CALL: '@@twilioRedux/rejectCall',
