@@ -11,5 +11,6 @@ module.exports = {
   IGNORE_CALL: '@@twilioRedux/ignoreCall',
   TOGGLE_MUTE: '@@twilioRedux/TOGGLE_MUTE',
   SEND_DIGITS: '@@twilioRedux/sendDigits',
-  HANGUP_CALL: '@@twilioRedux/hangupCall'
+  HANGUP_CALL: '@@twilioRedux/hangupCall',
+  SET_CALL_MUTE: '@@twilioRedux/setCallMute'
 }

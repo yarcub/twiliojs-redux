@@ -26,11 +26,11 @@ const middleware = (twilioDevice, token, opts) => store => {
         Date.now()
       ));
       conn.accept( conn => {
-
+        
       });
 
       conn.mute( (isMuted, conn) => {
-
+        store.dispatch(actions.setCallMute(isMuted));
       })
     });
 
@@ -50,10 +50,11 @@ const middleware = (twilioDevice, token, opts) => store => {
   });
 
   return next => action => {
+    const device = twilioDevice.object;
     if(action['@@isTwilioRedux']){
       switch(action.type){
         case constants.MAKE_CALL:
-          twilioDevice.connect(action.payload);
+          device.connect(action.payload);
           next(actions.addActiveCall(
             action.payload.From,
             action.payload.To,
@@ -62,22 +63,22 @@ const middleware = (twilioDevice, token, opts) => store => {
           ))
           return;
         case constants.ACCEPT_CALL:
-          twilioDevice.activeConnection().accept(action.payload);
+          device.activeConnection().accept(action.payload);
           return;
         case constants.REJECT_CALL:
-          twilioDevice.activeConnection().reject();
+          device.activeConnection().reject();
           return;
         case constants.IGNORE_CALL:
-          twilioDevice.activeConnection().ignore();
+          device.activeConnection().ignore();
           return;
         case constants.TOGGLE_MUTE:
-          twilioDevice.activeConnection().mute(!twilioDevice.activeConnection().isMuted());
+          device.activeConnection().mute(!device.activeConnection().isMuted());
           return;
         case constants.SEND_DIGITS:
-          twilioDevice.activeConnection().sendDigits(action.payload);
+          device.activeConnection().sendDigits(action.payload);
           return;
         case constants.HANGUP_CALL:
-          twilioDevice.activeConnection().disconnect();
+          device.activeConnection().disconnect();
           return;
         default:
           throw new Error('Unknown twilio action');

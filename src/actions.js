@@ -54,6 +54,12 @@ module.exports = {
       }
     }
   },
+  setCallMute(isMuted){
+    return {
+      type: constants.SET_CALL_MUTE,
+      payload: isMuted
+    }
+  },
   /*PUBLIC ACTIONS*/
   makeCall(from, to){
     return {
