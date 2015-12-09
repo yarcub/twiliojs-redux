@@ -8,7 +8,7 @@ npm install twiliojs-redux --save
 
 ## Motivation
 A learning experience with redux and Twilio's javascript SDK. Feel free to improve.    
-Versioning follows the version number of Twilio javascript SDK. Currently 1.2.0.
+Major and minor versions follow the version number of Twilio javascript SDK. Currently 1.2
 
 ## How to
 
@@ -43,7 +43,7 @@ There also a set of actions dispatched by the middleware when something relevant
 | Action        | Payload  | Description |
 |---------------|------------|---------|
 |CHANGE_DEVICE_STATUS|`{status:'ready', silent:true}`| Device and incoming sound status|
-|DEVICE_ERROR| `payload:{code:31208, message:'User denied access to microphone.'}`| Error occurrence. Codes and messages are the same as sent by Twilio SDK|
+|DEVICE_ERROR| `{code:31208, message:'User denied access to microphone.'}`| Error occurrence. Codes and messages are the same as sent by Twilio SDK|
 |ADD_ACTIVE_CALL|`{from:'+351910000000', to:'+351960000000', status:'pending', direction: 'inbound', created_at: '1970-01-01T00:00:00.001Z'}`| Active call start inbound or outbound|
 |ESTABLISHED_CALL| `{sid:'1235', status:'open'}`|The active call is established, we now have a new status and the connection sid|
 |DISCONECTED_CALL| `{status:'closed'}`| Closed the active connection |
