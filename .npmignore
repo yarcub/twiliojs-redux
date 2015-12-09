@@ -6,3 +6,4 @@ gulpfile.js
 .eslintrc
 .editorconfig
 .babelrc
+.travis.yml
