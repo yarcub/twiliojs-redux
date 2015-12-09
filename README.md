@@ -6,6 +6,8 @@
 npm install twiliojs-redux --save
 ```
 
+[![Build Status](https://travis-ci.org/yarcub/runnr-workout.svg?branch=master)](https://travis-ci.org/yarcub/runnr-workout)
+
 ## Motivation
 A learning experience with redux and Twilio's javascript SDK. Feel free to improve.    
 Major and minor versions follow the version number of Twilio javascript SDK. Currently 1.2
