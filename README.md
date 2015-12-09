@@ -68,4 +68,4 @@ Smart component can dispatch actions that are interpreted by middleware. Action 
 |`sendDigits(digits)`|
 
 #### Example
-There's an simple [example]('/example/') project setup with redux dev tools.
+There's an simple [example](example) project setup with redux dev tools.
