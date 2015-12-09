@@ -6,6 +6,8 @@
 npm install twiliojs-redux --save
 ```
 
+[![NPM](https://nodei.co/npm/twiliojs-redux.png?downloads=true)](https://nodei.co/npm/twiliojs-redux/)
+
 [![Build Status](https://travis-ci.org/yarcub/runnr-workout.svg?branch=master)](https://travis-ci.org/yarcub/runnr-workout)
 
 ## Motivation
