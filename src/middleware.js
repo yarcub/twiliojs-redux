@@ -26,7 +26,7 @@ const middleware = (twilioDevice, token, opts) => store => {
         Date.now()
       ));
       conn.accept( conn => {
-        
+
       });
 
       conn.mute( (isMuted, conn) => {
@@ -54,7 +54,7 @@ const middleware = (twilioDevice, token, opts) => store => {
     if(action['@@isTwilioRedux']){
       switch(action.type){
         case constants.MAKE_CALL:
-          device.connect(action.payload);
+          twilioDevice.connect(action.payload);
           next(actions.addActiveCall(
             action.payload.From,
             action.payload.To,

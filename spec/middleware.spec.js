@@ -23,7 +23,10 @@ beforeEach(()=>{
     disconnect: sinon.spy(),
     isMuted(){return false}
   }
-  device ={
+  device = {
+    object: {
+      activeConnection: () => {return activeConnection}
+    },
     setup: sinon.spy(),
     ready: sinon.spy(),
     offline: sinon.spy(),
