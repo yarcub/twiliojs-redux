@@ -6,7 +6,6 @@
 npm install twiliojs-redux --save
 ```
 
-
 ## Motivation
 A learning experience with redux and Twilio's javascript SDK. Feel free to improve.    
 Versioning follows the version number of Twilio javascript SDK. Currently 1.2.0.
@@ -63,3 +62,6 @@ Smart component can dispatch actions that are interpreted by middleware. Action 
 |`toggleMute()`|
 |`hangupCall()`|
 |`sendDigits(digits)`|
+
+#### Example
+There's an simple [example]('/example/') project setup with redux dev tools.
