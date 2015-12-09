@@ -1,12 +1,24 @@
 {
   "name": "twiliojs-redux",
   "version": "1.2.0",
-  "description": "TwilioJs Redux Middleware ",
+  "description": "Twiliojs middleware for Redux",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp spec"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yarcub/twiliojs-redux.git"
+  },
+  "homepage": "https://github.com/yarcub/twiliojs-redux",
+  "keywords": [
+    "twilio",
+    "redux",
+    "middleware",
+    "redux-middleware",
+    "flux"
+  ],
+  "author": "Nuno Rosa <nuno.sp.rosa@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-preset-es2015": "^6.3.13",
