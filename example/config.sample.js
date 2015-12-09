@@ -5,7 +5,7 @@ module.exports = {
   twilio: {
     account_sid: '*****',
     auth_token: '*****',
-    client_id: 'challenge-client',
+    client_id: 'my-client',
     app_sid: '*****'
   },
   logging: {
