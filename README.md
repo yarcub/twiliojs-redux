@@ -37,7 +37,7 @@ const createStoreWithMiddleware = applyMiddleware(
 const store = createStoreWithMiddleware(rootReducer);
 ```
 
-#### Actions disptached by middleware
+#### Actions dispatched by middleware
 There also a set of actions dispatched by the middleware when something relevant happens. Action types can be found on the module's `constants` object.
 
 | Action        | Payload  | Description |
