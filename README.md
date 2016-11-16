@@ -8,7 +8,7 @@ npm install twiliojs-redux --save
 
 [![NPM](https://nodei.co/npm/twiliojs-redux.png?downloads=true)](https://nodei.co/npm/twiliojs-redux/)
 
-[![Build Status](https://travis-ci.org/yarcub/runnr-workout.svg?branch=master)](https://travis-ci.org/yarcub/runnr-workout)
+[![Build Status](https://travis-ci.org/yarcub/twiliojs-redux.svg?branch=master)](https://travis-ci.org/yarcub/twiliojs-redux)
 
 ## Motivation
 A learning experience with redux and Twilio's javascript SDK. Feel free to improve.    
