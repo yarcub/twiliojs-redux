@@ -84,7 +84,7 @@ describe('Twilio Middleware', () => {
     };
 
     setTimeout(()=>{
-      sinon.assert.calledTwice(device.setup, 'token', {});
+      sinon.assert.alwaysCalledWith(device.setup, 'token', {});
       done();
     },0)
   });
@@ -379,7 +379,7 @@ describe('Twilio Middleware', () => {
     store.dispatch(actions.sendDigits('25#*'));
 
     setTimeout(()=>{
-      sinon.assert.called(device.activeConnection().sendDigits, '25#*');
+      sinon.assert.calledWith(device.activeConnection().sendDigits, '25#*');
       done();
     },0)
   })
