@@ -18,7 +18,7 @@ Major and minor versions follow the version number of Twilio javascript SDK. Cur
 
 Middleware expects the following dependencies:    
 * **Twilio**: the global Twilio instance
-* **token**: it expects a function that returns a Promise of a capability token
+* **token**: it expects a function that receives store state and returns a Promise of a capability token
 * **opts**: Twilio sdk [options](https://www.twilio.com/docs/api/client/device)
 
 #### Apply middleware
@@ -29,9 +29,10 @@ import {middleware} from 'twiliojs-redux';
 import fetch from 'isomorphic-fetch';
 import rootReducer from './reducers';
 
-const token = () => {
-  return fetch('capability_token')
-  .then((response) => response.text())
+const token = (state) => {
+  return fetch('capability_token', {
+      headers: { 'Authorization': `Bearer ${state.authToken}` }
+  }).then((response) => response.text())
 }
 
 const createStoreWithMiddleware = applyMiddleware(
