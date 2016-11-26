@@ -6,8 +6,4 @@ var gulp = require('gulp'),
 gulp.task('spec', function(){
   return gulp.src(config.src, {read: false})
         .pipe(mocha({reporter: 'spec'}))
-        .on('error', function(err){
-          gutil.log(err);
-          this.emit('end');
-        });
 });
