@@ -2,14 +2,16 @@ var actions = require('./actions'),
 constants = require('./constants');
 
 const middleware = (twilioDevice, token, opts) => store => {
-  token().then( value => {
+  const getToken = () => token(store.getState())
+
+  getToken().then( value => {
     twilioDevice.ready( device => {
       store.dispatch(actions.changeDeviceStatus(device));
     });
 
     twilioDevice.offline( device => {
       store.dispatch(actions.changeDeviceStatus(device));
-      token().then( value => {
+      getToken().then( value => {
         twilioDevice.setup(value, opts);
       })
     });
