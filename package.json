@@ -32,7 +32,7 @@
     "gulp-watch": "^4.3.5",
     "mocha": "^3.1.2",
     "redux": "^3.0.4",
-    "require-dir": "^0.3.0",
+    "require-dir": "^1.2.0",
     "sinon": "^1.17.2"
   }
 }
