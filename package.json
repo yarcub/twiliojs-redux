@@ -30,7 +30,7 @@
     "gulp-mocha": "^3.0.1",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
-    "mocha": "^3.1.2",
+    "mocha": "^6.2.1",
     "redux": "^3.0.4",
     "require-dir": "^0.3.0",
     "sinon": "^1.17.2"
